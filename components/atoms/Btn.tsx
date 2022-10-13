@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {
   buttonText: string;
-  onClickHandler: () => void
+  onClickHandler: any;
 }
 
 const Btn: React.FC<Props> = ({ buttonText, onClickHandler }) => {
