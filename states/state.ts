@@ -5,3 +5,8 @@ export const userIdState = atom<string>({
   default: '', //初期値
 
 })
+
+export const todoInputState = atom<string>({
+  key: 'todoInputState',
+  default: '',
+})
