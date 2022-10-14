@@ -4,14 +4,14 @@ import InputArea from '../molecules/InputArea'
 
 const TodoContent = () => {
   return (
-    <Sdiv>
+    <SmainContent>
       <InputArea />
-    </Sdiv>
+    </SmainContent>
   )
 }
 
 export default TodoContent
 
-const Sdiv = styled.div`
+const SmainContent = styled.div`
   min-height: calc(100vh - 140px);
 `
