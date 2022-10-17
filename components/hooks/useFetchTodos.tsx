@@ -3,7 +3,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 
 import { db } from '../../firebase/firebase-settings';
 import { useRecoilState } from 'recoil';
-import { taskItemState, userIdState } from '../../states/state';
+import { taskItemState } from '../../states/state';
 import { TodoType } from '../types/types';
 
 export const useFetchTodos = () => {
@@ -22,7 +22,7 @@ export const useFetchTodos = () => {
       });
     });
     if (!todoStatus || todoStatus === 'all') {
-      setTaskItems([...todos]);
+      setTaskItems([...todos.filter(({ status }) => status !== 'trashBox')]);
     } else {
       setTaskItems([...todos.filter(({ status }) => status === todoStatus)]);
     }

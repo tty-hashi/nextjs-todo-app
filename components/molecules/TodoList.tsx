@@ -6,6 +6,9 @@ import { taskItemState, userIdState } from '../../states/state';
 import { useFetchTodos } from '../hooks/useFetchTodos';
 import { faTrash, faFilePen } from '@fortawesome/free-solid-svg-icons'
 import { Box, Flex, ListItem, Select, Spacer, UnorderedList } from '@chakra-ui/react';
+import { deleteDoc, doc } from 'firebase/firestore';
+import { db } from '../../firebase/firebase-settings';
+import Btn from '../atoms/Btn';
 
 const TodoList = () => {
   const { fetchTodos } = useFetchTodos();
@@ -13,16 +16,19 @@ const TodoList = () => {
   const uid = useRecoilValue(userIdState)
   //firebaseからtaskを取得して、stateを更新
 
+  const todoDelete = async (postId: string) => {
+    console.log(postId);
+    await deleteDoc(doc(db, 'todos', postId))
+  }
   useEffect(() => {
     fetchTodos(uid);
-  }, [])
-  console.log(taskItems);
+  }, [uid, todoDelete])
 
   return (
     <>
       <UnorderedList>
         {taskItems.map(todo => (
-          <ListItem display='flex' mb={4}>
+          <ListItem display='flex' mb={4} key={todo.uid}>
             <p>{todo.content}</p>
             <Spacer />
             <Flex alignItems='center'>
@@ -31,8 +37,12 @@ const TodoList = () => {
                 <option value="inprogress">inprogress</option>
                 <option value="done">done</option>
               </Select>
-              <FontAwesomeIcon icon={faFilePen} style={{ marginRight: '10px' }} />
-              <FontAwesomeIcon icon={faTrash} />
+              <Btn onClickHandler={() => { todoDelete(todo.id) }} bg={'transparent'}>
+                <FontAwesomeIcon icon={faFilePen} />
+              </Btn>
+              <Btn onClickHandler={() => { todoDelete(todo.id) }} bg={'transparent'}>
+                <FontAwesomeIcon icon={faTrash} />
+              </Btn>
             </Flex>
           </ListItem>
         ))}
