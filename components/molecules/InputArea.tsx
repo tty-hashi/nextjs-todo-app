@@ -16,6 +16,7 @@ const InputArea: React.FC = () => {
     setTodoInput(e.target.value);
   }
   const addTodo = async () => {
+    if (todoInput === '') return;
     await addDoc(collection(db, 'todos'), {
       content: todoInput,
       createdAt: serverTimestamp(),
@@ -24,7 +25,6 @@ const InputArea: React.FC = () => {
       status: 'nostarted'
     })
     setTodoInput('');
-
   }
   const onclickHandler = () => {
     addTodo();
@@ -37,7 +37,7 @@ const InputArea: React.FC = () => {
 
   return (
     <form onSubmit={onSubmitHandler}>
-      <Container maxW='768px' display='flex'>
+      <Container maxW='768px' display='flex' py={10}>
         <InputTodo placeholder='Todoを入力してください。' marginRight='16px' value={todoInput} onChange={onChangeText} />
         <Spacer />
         <Btn buttonText='送信' onClickHandler={onclickHandler} />

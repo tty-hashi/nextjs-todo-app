@@ -1,14 +1,15 @@
 import '../styles/globals.css'
 import { RecoilRoot } from 'recoil'
 import { Box, ChakraProvider, Container } from '@chakra-ui/react'
+import Layout from '../components/templates/Layout'
 
 function MyApp({ Component, pageProps }) {
   return (
     <RecoilRoot>
       <ChakraProvider>
-        <Box bg='red.50'>
+        <Layout>
           <Component {...pageProps} />
-        </Box>
+        </Layout>
       </ChakraProvider>
     </RecoilRoot>
   )
