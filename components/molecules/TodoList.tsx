@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Link from 'next/link'
 import { useRecoilValue } from 'recoil';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -9,6 +10,7 @@ import { Box, Flex, ListItem, Select, Spacer, UnorderedList } from '@chakra-ui/r
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebase/firebase-settings';
 import Btn from '../atoms/Btn';
+import { useRouter } from 'next/router';
 
 const TodoList = () => {
   const { fetchTodos } = useFetchTodos();
@@ -24,11 +26,21 @@ const TodoList = () => {
     fetchTodos(uid);
   }, [uid, todoDelete])
 
+  //編集ボタンをクリックしたら、editigページへpostidをクエリパラメータとして遷移する。
+  const router = useRouter();
+  const clickButton = (postId: string) => {
+    router.push({
+      pathname: "/editing",   //遷移先
+      query: { postId } //クエリパラメータ
+    });
+
+  }
+
   return (
     <>
       <UnorderedList>
         {taskItems.map(todo => (
-          <ListItem display='flex' mb={4} key={todo.uid}>
+          <ListItem display='flex' mb={4} key={todo.id}>
             <p>{todo.content}</p>
             <Spacer />
             <Flex alignItems='center'>
@@ -37,7 +49,7 @@ const TodoList = () => {
                 <option value="inprogress">inprogress</option>
                 <option value="done">done</option>
               </Select>
-              <Btn onClickHandler={() => { todoDelete(todo.id) }} bg={'transparent'}>
+              <Btn onClickHandler={() => { clickButton(todo.id) }} bg={'transparent'}>
                 <FontAwesomeIcon icon={faFilePen} />
               </Btn>
               <Btn onClickHandler={() => { todoDelete(todo.id) }} bg={'transparent'}>
