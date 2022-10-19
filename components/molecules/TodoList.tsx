@@ -31,7 +31,7 @@ const TodoList = () => {
   const clickButton = (postId: string) => {
     router.push({
       pathname: "/editing",   //遷移先
-      query: { postId } //クエリパラメータ
+      query: { postId: postId } //クエリパラメータ
     });
 
   }
