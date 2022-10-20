@@ -2,5 +2,7 @@ export type TodoType = {
   id: string;
   content: string;
   createdAt: string;
-  status: 'noStarted' | 'inProgress' | 'done' | 'trashBox';
+  status: 'noStarted' | 'inProgress' | 'done';
+  isComplete?: boolean;
+  detail: string;
 }

@@ -7,10 +7,13 @@ import InputTodo from '../atoms/Input'
 import Btn from '../atoms/Btn'
 import { todoInputState, userIdState } from '../../states/state';
 import { db } from '../../firebase/firebase-settings';
+import { useFetchTodos } from '../hooks/useFetchTodos';
 
 const InputArea: React.FC = () => {
   const [todoInput, setTodoInput] = useRecoilState(todoInputState);
-  const userId = useRecoilValue(userIdState)
+  const uid = useRecoilValue(userIdState)
+  const { fetchTodos } = useFetchTodos();
+
   // inputの変更をstateへset
   const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoInput(e.target.value);
@@ -21,10 +24,11 @@ const InputArea: React.FC = () => {
       content: todoInput,
       createdAt: serverTimestamp(),
       isComplete: false,
-      uid: userId,
+      uid,
       status: 'nostarted'
     })
     setTodoInput('');
+    fetchTodos(uid, false);
   }
   const onclickHandler = () => {
     addTodo();
