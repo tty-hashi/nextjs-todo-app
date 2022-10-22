@@ -1,12 +1,8 @@
-import React from 'react'
-import { deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import TrashTodoList from "../components/molecules/TrashTodoList"
 
 const Trash = () => {
-  // await deleteDoc(doc(db, 'todos', postId))
-
   return (
-    <>
-    </>
+    <TrashTodoList />
   )
 }
 
