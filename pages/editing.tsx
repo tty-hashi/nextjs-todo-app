@@ -13,13 +13,20 @@ const Editing = () => {
   const [todoDetail, setTodoDetail] = useState('');
 
   // 対象Todoの取得
-  const getTodo = async () => {
+  // const getTodo = async () => {
+  //   const docRef = doc(db, "todos", postId);
+  //   const docSnap = await getDoc(docRef);
+  //   const todo: any = docSnap.data();
+  //   setTodoContent(todo.content);
+  //   setTodoDetail(todo.detail);
+  // }
+  (async () => {
     const docRef = doc(db, "todos", postId);
     const docSnap = await getDoc(docRef);
     const todo: any = docSnap.data();
     setTodoContent(todo.content);
     setTodoDetail(todo.detail);
-  }
+  })()
   // アップデード関数
   const updateTodo = async () => {
     const docRef = doc(db, 'todos', postId)
@@ -37,7 +44,7 @@ const Editing = () => {
 
   return (
     <>
-      <Btn onClickHandler={getTodo}>レンダリング</Btn>
+      {/* <Btn onClickHandler={getTodo}>レンダリング</Btn> */}
       <Input value={todoContent} onChange={e => { setTodoContent(e.target.value) }} my={4} />
       <Textarea value={todoDetail} onChange={e => { setTodoDetail(e.target.value) }} mb={4} />
       <Btn onClickHandler={updateTodo}>アップデード</Btn>

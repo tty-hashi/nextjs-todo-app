@@ -52,7 +52,9 @@ const InputArea: React.FC = () => {
       <Container maxW='768px' display='flex' py={10}>
         <InputTodo placeholder='Todoを入力してください。' marginRight='16px' value={todoInput} onChange={onChangeText} />
         <Spacer />
-        <SelectBox onChange={selectChengeHandler} selectValue={selectSortValue} />
+        <SelectBox onChange={selectChengeHandler} selectValue={selectSortValue}>
+          <option value='all'>すべて</option>
+        </SelectBox>
         <Btn buttonText='送信' onClickHandler={onclickHandler} />
       </Container>
     </form>
