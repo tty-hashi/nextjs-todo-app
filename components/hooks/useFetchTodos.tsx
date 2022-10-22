@@ -34,8 +34,10 @@ export const useFetchTodos = () => {
 
     if (isComplete) {
       setTaskItems([...todos.filter(({ isComplete }) => isComplete)]);
-    } else if (!todoStatus || todoStatus === 'all' || !isComplete) {
+      console.log(1);
+    } else if ((!todoStatus || todoStatus === 'all') && !isComplete) {
       setTaskItems([...todos.filter(({ isComplete }) => !isComplete)]);
+      console.log(2);
     } else {
       setTaskItems([...todos.filter(({ status }) => status === todoStatus)]);
     }

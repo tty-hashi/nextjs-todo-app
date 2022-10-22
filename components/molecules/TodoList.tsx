@@ -38,6 +38,11 @@ const TodoList = () => {
       query: { postId: postId } //クエリパラメータ
     });
   }
+  const moveTrashPage = () => {
+    router.push({
+      pathname: "/trash",   //遷移先
+    });
+  }
 
   return (
     <>
@@ -62,6 +67,11 @@ const TodoList = () => {
           </ListItem>
         ))}
       </UnorderedList>
+      <Box textAlign={'right'} my={8}>
+        <Btn onClickHandler={moveTrashPage} >
+          ゴミ箱一覧
+        </Btn>
+      </Box>
     </>
   )
 }
