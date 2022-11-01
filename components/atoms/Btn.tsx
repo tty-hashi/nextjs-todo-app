@@ -6,10 +6,12 @@ type Props = {
   onClickHandler: any;
   children?: any;
   bg?: string;
+  mr?: number | string;
+  disabled?: boolean | null | undefined;
 }
 
-const Btn: React.FC<Props> = ({ buttonText, onClickHandler, children, bg }) => {
-  return <Button onClick={onClickHandler} bg={bg}>{buttonText}{children}</Button>
+const Btn: React.FC<Props> = ({ buttonText, onClickHandler, children, bg, mr, disabled }) => {
+  return <Button onClick={onClickHandler} bg={bg} mr={mr} disabled={disabled}>{buttonText}{children}</Button>
 }
 
 export default Btn

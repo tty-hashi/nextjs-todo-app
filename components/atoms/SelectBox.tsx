@@ -1,6 +1,5 @@
 import { Select } from '@chakra-ui/react'
-import { type } from 'os';
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode } from 'react'
 
 import { selectList } from '../types/types';
 

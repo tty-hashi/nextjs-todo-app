@@ -8,7 +8,7 @@ type Props = {
   children: ReactNode
 }
 
-const Layout: React.FC<any> = ({ children }) => {
+const Layout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />

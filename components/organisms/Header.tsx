@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     <>
       <Box px={8} py={4} bg='red.300'>
         <Flex alignItems='center'>
-          <Heading as='h1' size='xl' color='red.900' onClick={logoOnClickHandler} >Next.js TodoApp 初級</Heading>
+          <Heading as='h1' size='xl' color='red.900' onClick={logoOnClickHandler} _hover={{ cursor: 'pointer' }} >Next.js TodoApp 初級</Heading>
           <Spacer />
           <LoginLogoutBtn />
         </Flex>

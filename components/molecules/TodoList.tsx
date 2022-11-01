@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useFetchTodos } from '../hooks/useFetchTodos';
 import { faTrash, faFilePen } from '@fortawesome/free-solid-svg-icons'
-import { Box, Flex, ListItem, Select, Spacer, UnorderedList } from '@chakra-ui/react';
+import { Box, Flex, ListItem, Spacer, Text, UnorderedList } from '@chakra-ui/react';
 import { doc, updateDoc } from 'firebase/firestore';
 
-import { taskItemState, userIdState } from '../../states/state';
+import { useFetchTodos } from '../hooks/useFetchTodos';
+import { sortSelectValue, taskItemState, userIdState } from '../../states/state';
 import { db } from '../../firebase/firebase-settings';
 import Btn from '../atoms/Btn';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ import SelectBox from '../atoms/SelectBox';
 const TodoList = () => {
   const { fetchTodos } = useFetchTodos();
   const [taskItems, setTaskItems] = useRecoilState(taskItemState)
+  const selectSortValue = useRecoilValue(sortSelectValue)
   const uid = useRecoilValue(userIdState)
   const [selectValue, setSelectValue] = useState('');
   //firebaseからtaskを取得して、stateを更新
@@ -28,13 +29,12 @@ const TodoList = () => {
   }
 
   useEffect(() => {
-    console.log(uid);
     fetchTodos(uid);
   }, [uid])
 
   //編集ボタンをクリックしたら、editigページへpostidをクエリパラメータとして遷移する。
   const router = useRouter();
-  const clickButton = (postId: string) => {
+  const editingRouting = (postId: string) => {
     router.push({
       pathname: "/editing",   //遷移先
       query: { postId: postId } //クエリパラメータ
@@ -42,9 +42,10 @@ const TodoList = () => {
   }
   const moveTrashPage = () => {
     router.push({
-      pathname: "/trash",   //遷移先
+      pathname: "/trash",
     });
   }
+  // todoのstatusを更新して、既存のsortValueでtodoを更新
   const selectOnChangeHandler = async (e: React.ChangeEvent<HTMLSelectElement>, postId: string) => {
     const changeSelectValue = e.target.value;
     setSelectValue(changeSelectValue);
@@ -52,7 +53,7 @@ const TodoList = () => {
     await updateDoc(docRef, {
       status: changeSelectValue
     });
-    fetchTodos(uid, false);
+    fetchTodos(uid, false, selectSortValue);
   }
 
   return (
@@ -60,11 +61,11 @@ const TodoList = () => {
       <UnorderedList>
         {taskItems.map(todo => (
           <ListItem display='flex' mb={4} key={todo.id}>
-            <p>{todo.content}</p>
+            <Text onClick={() => { editingRouting(todo.id) }} _hover={{ cursor: 'pointer' }}>{todo.content}</Text>
             <Spacer />
             <Flex alignItems='center'>
               <SelectBox selectValue={todo.status} onChange={(e) => { selectOnChangeHandler(e, todo.id) }} />
-              <Btn onClickHandler={() => { clickButton(todo.id) }} bg={'transparent'}>
+              <Btn onClickHandler={() => { editingRouting(todo.id) }} bg={'transparent'}>
                 <FontAwesomeIcon icon={faFilePen} />
               </Btn>
               <Btn onClickHandler={() => { todoMoveTrashBox(todo.id) }} bg={'transparent'}>
@@ -74,7 +75,7 @@ const TodoList = () => {
           </ListItem>
         ))}
       </UnorderedList>
-      <Box textAlign={'right'} my={8}>
+      <Box textAlign={'right'} py={8}>
         <Btn onClickHandler={moveTrashPage} >
           ゴミ箱一覧
         </Btn>

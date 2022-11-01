@@ -13,7 +13,6 @@ export const useFetchTodos = () => {
     const todo = query(collection(db, 'todos'), where('uid', '==', uid));
     const querySnapshot = await getDocs(todo);
     const todos: TodoType[] = [];
-    console.log('fetch1');
     try {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
@@ -27,11 +26,7 @@ export const useFetchTodos = () => {
         });
       });
     } catch (e) {
-      console.log("firebese fetch erro", e);
     }
-    // setTaskItems(todos)
-    console.log(todos);
-
     if (isComplete) {
       setTaskItems([...todos.filter(({ isComplete }) => isComplete)]);
     } else if ((!todoStatus || todoStatus === 'all') && !isComplete) {
@@ -39,8 +34,6 @@ export const useFetchTodos = () => {
     } else {
       setTaskItems([...todos.filter(({ status }) => status === todoStatus)]);
     }
-    console.log('fetch3');
-
   }
   return { fetchTodos }
 }

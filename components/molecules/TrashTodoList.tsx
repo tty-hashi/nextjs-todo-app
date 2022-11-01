@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useFetchTodos } from '../hooks/useFetchTodos';
@@ -10,11 +10,14 @@ import { taskItemState, userIdState } from '../../states/state';
 import { db } from '../../firebase/firebase-settings';
 import Btn from '../atoms/Btn';
 import { useRouter } from 'next/router';
+import GohomeBtn from '../atoms/GohomeBtn';
+import SelectBox from '../atoms/SelectBox';
 
 
 const TrashTodoList = () => {
   const { fetchTodos } = useFetchTodos();
   const [taskItems, setTaskItems] = useRecoilState(taskItemState)
+  const [selectValue, setSelectValue] = useState('');
   const uid = useRecoilValue(userIdState)
   //firebaseからtaskを取得して、stateを更新
 
@@ -25,7 +28,6 @@ const TrashTodoList = () => {
 
   useEffect(() => {
     fetchTodos(uid, true);
-    console.log(taskItems);
   }, [])
 
   //編集ボタンをクリックしたら、editigページへpostidをクエリパラメータとして遷移する。
@@ -40,6 +42,15 @@ const TrashTodoList = () => {
       pathname: "/",   //遷移先
     });
   }
+  const selectOnChangeHandler = async (e: React.ChangeEvent<HTMLSelectElement>, postId: string) => {
+    const changeSelectValue = e.target.value;
+    setSelectValue(changeSelectValue);
+    const docRef = doc(db, 'todos', postId)
+    await updateDoc(docRef, {
+      status: changeSelectValue
+    });
+    fetchTodos(uid, false);
+  }
 
   return (
     <>
@@ -50,11 +61,7 @@ const TrashTodoList = () => {
             <p>{todo.content}</p>
             <Spacer />
             <Flex alignItems='center'>
-              <Select w={'100px'} marginRight={4}>
-                <option value="nostarted">nostarted</option>
-                <option value="inprogress">inprogress</option>
-                <option value="done">done</option>
-              </Select>
+              <SelectBox selectValue={todo.status} onChange={(e) => { selectOnChangeHandler(e, todo.id) }} />
               <Btn onClickHandler={() => { returnTodo(todo.id) }} bg={'transparent'}>
                 <FontAwesomeIcon icon={faTrashCanArrowUp} />
               </Btn>
@@ -65,6 +72,9 @@ const TrashTodoList = () => {
           </ListItem>
         ))}
       </UnorderedList>
+      <Box textAlign={'right'}>
+        <GohomeBtn />
+      </Box>
     </>
   )
 
