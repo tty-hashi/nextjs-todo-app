@@ -1,19 +1,17 @@
-import styled from '@emotion/styled'
 import React from 'react'
+
 import InputArea from '../molecules/InputArea'
 import TodoList from '../molecules/TodoList'
+import TodoSort from '../molecules/TodoSort'
 
 const TodoContent = () => {
   return (
-    <SmainContentContainer>
+    <>
       <InputArea />
+      <TodoSort />
       <TodoList />
-    </SmainContentContainer>
+    </>
   )
 }
 
 export default TodoContent
-
-const SmainContentContainer = styled.div`
-  min-height: calc(100vh - 140px);
-`

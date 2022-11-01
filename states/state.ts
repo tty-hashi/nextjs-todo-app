@@ -10,7 +10,12 @@ export const todoInputState = atom<string>({
   default: '',
 })
 
-export const taskItemState = atom<Array<any>>({
+export const taskItemState = atom({
   key: 'taskItems',
   default: [{ id: '', content: '', createdAt: '', status: 'noStarted' }]
+})
+
+export const sortSelectValue = atom({
+  key: 'selectValue',
+  default: 'all'
 })

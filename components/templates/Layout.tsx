@@ -1,5 +1,6 @@
+import React, { ReactNode } from 'react'
 import { Box, Container } from '@chakra-ui/react'
-import React, { ReactHTMLElement, ReactNode } from 'react'
+
 import Footer from '../organisms/Footer'
 import Header from '../organisms/Header'
 
@@ -11,7 +12,7 @@ const Layout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <Header />
-      <Box bg='red.50'>
+      <Box bg='red.50' minHeight='calc(100vh - 140px)'>
         <Container maxW='700px' mx='auto'>
           {children}
         </Container>
