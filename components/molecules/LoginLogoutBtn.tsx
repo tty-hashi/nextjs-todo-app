@@ -3,7 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { useSetRecoilState } from 'recoil';
 
-import { auth, sinInWithGoogle } from '../../firebase/firebase-settings'
+import { auth, singInWithGoogle } from '../../firebase/firebase-settings'
 import { userIdState } from '../../states/state';
 import Btn from '../atoms/Btn';
 
@@ -22,11 +22,12 @@ const LoginLogoutBtn: React.FC = () => {
   //googleサインアウト
   const singOutWithGoogle = () => {
     auth.signOut();
+    location.reload();
   }
 
   return (
     <>
-      {!user ? <Btn buttonText={'ログイン'} onClickHandler={sinInWithGoogle} /> :
+      {!user ? <Btn buttonText={'ログイン'} onClickHandler={singInWithGoogle} /> :
         <Btn buttonText={'ログアウト'} onClickHandler={singOutWithGoogle} />}
     </>
   )

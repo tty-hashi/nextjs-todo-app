@@ -30,20 +30,13 @@ export const storage = getStorage();
 const provider = new GoogleAuthProvider();
 export const auth = getAuth();
 
-export const sinInWithGoogle = () => {
+export const singInWithGoogle = () => {
   signInWithPopup(auth, provider)
     .then((result) => {
       const credential = GoogleAuthProvider.credentialFromResult(result);
       const user = result.user;
     }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      // ...
+      console.log(error);
     });
 }
 // uidの取得
